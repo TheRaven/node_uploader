@@ -1,0 +1,11 @@
+Watcher:
+  interval: 5000
+  baseFolder: drops
+  folders:
+    - 
+      name: drop
+      listener: ./lib/schedule_parser
+    - 
+      name: drop2
+      listener: ./lib/schedule_parser
+    

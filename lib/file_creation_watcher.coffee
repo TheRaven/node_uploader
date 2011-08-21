@@ -1,15 +1,25 @@
 WatchTree = require "watch-tree"
 exports.FileCreationWatcher = class FileCreationWatcher
-  constructor: (@baseDirectory, @sampleRate) ->
+  constructor: (@baseDirectory) ->
     @watches = []
-    watcher = WatchTree.watchTree @baseDirectory, {'sample-rate': @sampleRate}
+  
+  addWatch: (folder, callback) ->
+    @watches.push({folder:folder, callback:callback})
+    
+  watch: (sampleRate) ->
+    watcher = WatchTree.watchTree @baseDirectory, {'sample-rate': sampleRate}
     
     watcher.on 'fileCreated', (file, stats) =>
       @watches.forEach (watch) =>
         folder = @baseDirectory+"/"+watch.folder+"/"
         #check if we are watching for the folder containing the file if we are execute the associated callback
         if file.indexOf(folder) == 0
-          watch.callback.parse file
-  
-  watch: (folder, callback) ->
-    @watches.push({folder:folder, callback:callback})
+          watch.callback file
+
+  @filenameToCamelCase = (s) ->
+    s = s.replace(/_/, " ")
+    s = s.charAt(0).toUpperCase() + s.slice(1);
+    if ( /\S[A-Z]/.test( s ) ) 
+      s.replace( /(.)([A-Z])/g, (t,a,b) ->  a + ' ' + b.toLowerCase();  ) 
+    else
+      s.replace( /( )([a-z])/g, (t,a,b) ->  b.toUpperCase();  )
