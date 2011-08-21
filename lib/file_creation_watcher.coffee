@@ -1,8 +1,8 @@
 WatchTree = require "watch-tree"
 exports.FileCreationWatcher = class FileCreationWatcher
-  constructor: (@baseDirectory) ->
+  constructor: (@baseDirectory, @sampleRate) ->
     @watches = []
-    watcher = WatchTree.watchTree @baseDirectory, {'sample-rate': 5}
+    watcher = WatchTree.watchTree @baseDirectory, {'sample-rate': @sampleRate}
     
     watcher.on 'fileCreated', (file, stats) =>
       @watches.forEach (watch) =>
