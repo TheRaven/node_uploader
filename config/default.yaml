@@ -1,11 +1,15 @@
 Watcher:
-  interval: 5000
+  interval: 5
   baseFolder: drops
   folders:
     - 
       name: drop
-      listener: ./lib/schedule_parser
+      listener: ./lib/schedule_digester
     - 
       name: drop2
-      listener: ./lib/schedule_parser
-    
+      listener: ./lib/schedule_digester
+ScheduleDigesterFtp:
+  host: "127.0.0.1"
+  port: 21
+  username: test
+  password: test
