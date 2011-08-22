@@ -6,7 +6,7 @@ FtpConfig = require('config').ScheduleDigesterFtp
 Ftp = require 'jsftp'
 
 exports.ScheduleDigester = class ScheduleDigester
-  constructor: ->
+  constructor: (@config) ->
     @xmlParser = new xml2js.Parser
     @xmlParser.addListener 'end', (result) =>
       this.digest result
@@ -15,10 +15,10 @@ exports.ScheduleDigester = class ScheduleDigester
     console.dir result
     outputBuffer = new Buffer result.name + "\n" + result.description
     ftp = new Ftp
-      host: FtpConfig.host
-      port: FtpConfig.port
+      host: @config.ftp.host
+      port: @config.ftp.port
 
-    ftp.auth FtpConfig.username, FtpConfig.password, (err, res) =>
+    ftp.auth @config.ftp.username, @config.ftp.password, (err, res) =>
       throw err if err 
 
       ftp.put "./schedule.xml", outputBuffer, (err, data) ->
