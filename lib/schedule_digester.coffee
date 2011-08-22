@@ -1,4 +1,5 @@
 fs = require 'fs'
+Util = require 'util'
 path = require 'path'
 xml2js = require 'xml2js'
 FtpConfig = require('config').ScheduleDigesterFtp
@@ -12,7 +13,7 @@ exports.ScheduleDigester = class ScheduleDigester
 
   digest: (result) =>
     console.dir result
-    buffer = new Buffer "Thecontent of the file"
+    outputBuffer = new Buffer result.name + "\n" + result.description
     ftp = new Ftp
       host: FtpConfig.host
       port: FtpConfig.port
@@ -20,7 +21,7 @@ exports.ScheduleDigester = class ScheduleDigester
     ftp.auth FtpConfig.username, FtpConfig.password, (err, res) =>
       throw err if err 
 
-      ftp.put "./schedule.xml", buffer, (err, data) ->
+      ftp.put "./schedule.xml", outputBuffer, (err, data) ->
         throw err if err 
         ftp.raw.quit (err, res) ->
           throw err if err 
@@ -28,7 +29,7 @@ exports.ScheduleDigester = class ScheduleDigester
     
     
   fileCreated: (file) =>
-
+    console.log file
     if path.extname(file) == ".xml"
       buffer = fs.readFileSync file
       @xmlParser.parseString buffer
