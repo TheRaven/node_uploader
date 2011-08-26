@@ -10,8 +10,8 @@ WatcherConfig.folders.forEach (folder) ->
   className = FileCreationWatcher.filenameToCamelCase path.basename(folder.listener, ".js")
   console.log(className)
   klass = eval(""+className+" = require('"+folder.listener+"')."+className)
-
-  filecreationWatcher.addWatch(folder.name, (new klass).fileCreated)
+  config = folder.configuration
+  filecreationWatcher.addWatch(folder.name, (new klass(config)).fileCreated)
 
 
 filecreationWatcher.watch WatcherConfig.interval
