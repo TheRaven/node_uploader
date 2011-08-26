@@ -12,7 +12,7 @@ exports.FileCreationWatcher = class FileCreationWatcher
     watcher.on 'fileCreated', (file, stats) =>
       @watches.forEach (watch) =>
         folder = @baseDirectory+"/"+watch.folder+"/"
-        #check if we are watching for the folder containing the file if we are execute the associated callback
+        #check if we are watching for the folder containing the file if we are to execute the associated callback
         if file.indexOf(folder) == 0
           watch.callback file
 

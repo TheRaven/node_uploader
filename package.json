@@ -1,0 +1,23 @@
+{
+    "name": "node_uploader",
+    "version": "0.1.0",
+
+    "description": "A small program to digest files and push the content over ftp",
+    "url": "",
+
+    "main": "node_uploader.js",
+    
+    "dependencies": {
+        "watch-tree": ">=0.1.1",
+        "jsftp": ">=0.0.9",
+        "config": ">=0.4.3",
+        "xml2js": ">=0.1.9"
+    },
+
+    "author": "Yannick Simard ysimard@gmail.com",
+
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/TheRaven/node_uploader.git"
+    }
+}

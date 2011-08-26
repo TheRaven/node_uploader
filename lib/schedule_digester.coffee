@@ -17,16 +17,21 @@ exports.ScheduleDigester = class ScheduleDigester
     ftp = new Ftp
       host: FtpConfig.host
       port: FtpConfig.port
-
-    ftp.auth FtpConfig.username, FtpConfig.password, (err, res) =>
-      throw err if err 
-
-      ftp.put "./schedule.xml", outputBuffer, (err, data) ->
-        throw err if err 
-        ftp.raw.quit (err, res) ->
-          throw err if err 
-
     
+    try {
+      ftp.auth FtpConfig.username, FtpConfig.password, (err, res) =>
+        throw err if err 
+
+        ftp.put "./schedule.xml", outputBuffer, (err, data) ->
+          throw err if err 
+          ftp.raw.quit (err, res) ->
+            throw err if err 
+            delete ftp
+    }
+    catch (exception) {
+      ftp.raw.quit
+    }
+  
     
   fileCreated: (file) =>
     console.log file

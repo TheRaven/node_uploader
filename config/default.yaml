@@ -1,5 +1,5 @@
 Watcher:
-  interval: 5
+  interval: 5000
   baseFolder: drops
   folders:
     - 
