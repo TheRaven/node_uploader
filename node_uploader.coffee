@@ -1,5 +1,6 @@
-WatcherConfig = require('config').Watcher;
-path = require('path');
+require 'coffee-script'
+WatcherConfig = require('config').Watcher
+path = require 'path'
 
 {FileCreationWatcher} = require "./lib/file_creation_watcher"
 filecreationWatcher = new FileCreationWatcher(WatcherConfig.baseFolder)
@@ -7,6 +8,7 @@ filecreationWatcher = new FileCreationWatcher(WatcherConfig.baseFolder)
 WatcherConfig.folders.forEach (folder) ->
   #figure out the class name from the filename in the config
   className = FileCreationWatcher.filenameToCamelCase path.basename(folder.listener, ".js")
+  console.log(className)
   klass = eval(""+className+" = require('"+folder.listener+"')."+className)
 
   filecreationWatcher.addWatch(folder.name, (new klass).fileCreated)
