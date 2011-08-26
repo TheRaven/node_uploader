@@ -1,4 +1,3 @@
-require 'coffee-script'
 WatcherConfig = require('config').Watcher
 path = require 'path'
 
