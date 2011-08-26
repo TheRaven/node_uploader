@@ -7,10 +7,10 @@ filecreationWatcher = new FileCreationWatcher(WatcherConfig.baseFolder)
 
 WatcherConfig.folders.forEach (folder) ->
   #figure out the class name from the filename in the config
-  className = FileCreationWatcher.filenameToCamelCase path.basename(folder.listener, ".js")
-  console.log(className)
+  className = FileCreationWatcher.filenameToCamelCase path.basename(folder.listener)
   klass = eval(""+className+" = require('"+folder.listener+"')."+className)
   config = folder.configuration
+  console.log("loading class: "+ className)
   filecreationWatcher.addWatch(folder.name, (new klass(config)).fileCreated)
 
 
