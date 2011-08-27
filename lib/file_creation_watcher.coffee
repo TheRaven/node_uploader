@@ -1,5 +1,5 @@
 WatchTree = require "watch-tree"
-exports.FileCreationWatcher = class FileCreationWatcher
+class exports.FileCreationWatcher
   constructor: (@baseDirectory) ->
     @watches = []
   
@@ -7,13 +7,14 @@ exports.FileCreationWatcher = class FileCreationWatcher
     @watches.push({folder:folder, callback:callback})
     
   watch: (sampleRate) ->
-    watcher = WatchTree.watchTree @baseDirectory, {'sample-rate': sampleRate}
+    watcher = WatchTree.watchTree @baseDirectory, 'sample-rate': sampleRate
     
     watcher.on 'fileCreated', (file, stats) =>
       @watches.forEach (watch) =>
         folder = @baseDirectory+"/"+watch.folder+"/"
         #check if we are watching for the folder containing the file if we are to execute the associated callback
         if file.indexOf(folder) == 0
+          console.log file
           watch.callback file
 
   @filenameToCamelCase = (s) ->

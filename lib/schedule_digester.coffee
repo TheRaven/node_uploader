@@ -5,7 +5,7 @@ xml2js = require 'xml2js'
 FtpConfig = require('config').ScheduleDigesterFtp
 Ftp = require 'jsftp'
 
-exports.ScheduleDigester = class ScheduleDigester
+class exports.ScheduleDigester
   constructor: (@config) ->
     @xmlParser = new xml2js.Parser
     @xmlParser.addListener 'end', (result) =>
@@ -28,6 +28,7 @@ exports.ScheduleDigester = class ScheduleDigester
             throw err if err 
             delete ftp
     catch exception
+      console.log exception
       ftp.raw.quit
   
     
